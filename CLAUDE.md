@@ -42,12 +42,21 @@ MongoDB reconnects automatically every 10 seconds on failure (`connectTimeoutMS:
 
 Multi-stage build: compiles the React client in stage 1, then copies the build into the production server image.
 
+**With docker-compose (recommended):**
+```bash
+docker compose up -d        # start app + MongoDB
+docker compose logs -f app  # follow logs
+docker compose down         # stop (data preserved)
+docker compose down -v      # stop + delete MongoDB data
+```
+
+**Manually:**
 ```bash
 docker build -t 2048-mern .
 docker run -p 5000:5000 -e MONGO_URI=mongodb://user:pass@host:27017/dbname 2048-mern
 ```
 
-`MONGO_URI` must be passed at runtime — it is not baked into the image.
+`MONGO_URI` must be passed at runtime — it is not baked into the image. The docker-compose uses a named volume (`mongo-data`) to persist scores across restarts.
 
 ## Environment
 
