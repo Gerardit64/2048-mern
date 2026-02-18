@@ -38,6 +38,17 @@ The app has two distinct frontend layers served by the same Express server:
 
 MongoDB reconnects automatically every 10 seconds on failure (`connectTimeoutMS: 5000`).
 
+## Docker
+
+Multi-stage build: compiles the React client in stage 1, then copies the build into the production server image.
+
+```bash
+docker build -t 2048-mern .
+docker run -p 5000:5000 -e MONGO_URI=mongodb://user:pass@host:27017/dbname 2048-mern
+```
+
+`MONGO_URI` must be passed at runtime — it is not baked into the image.
+
 ## Environment
 
 The server reads from `server/.env`:
